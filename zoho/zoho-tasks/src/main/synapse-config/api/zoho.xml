@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/zoho" name="zoho" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST GET" uri-template="/tasks">
+        <inSequence>
+            <log>
+                <property name="API" value="tasks"/>
+                <property name="MSG" value="Starting"/>
+            </log>
+            <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
+            <property expression="get-property('axis2', 'HTTP_METHOD')" name="original_http_method" scope="default" type="STRING"/>
+            <!-- Dispatch to appropriate method -->
+            <switch source="$ctx:original_http_method">
+                <case regex="GET">
+                    <sequence key="zoho_get_tasks"/>
+                </case>
+                <case regex="POST">
+                    <sequence key="zoho_post_task"/>
+                </case>
+                <default>
+                    <sequence key="respond_with_400"/>
+                </default>
+            </switch>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="zoho_create_token" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <payloadFactory media-type="xml">
+        <format>
+            <form>
+            <grant_type>client_credentials</grant_type>
+            <client_id>$1</client_id>
+            <client_secret>$2</client_secret>
+            <scope>ZohoProjects.portals.READ ZohoProjects.projects.READ ZohoProjects.tasks.ALL ZohoPC.files.ALL</scope>
+            </form>
+        </format>
+        <args>
+            <arg evaluator="xml" expression="get-property('registry','conf:app/zoho/zoho_client_id')"/>
+            <arg evaluator="xml" expression="get-property('registry','conf:app/zoho/zoho_client_secret')"/>
+        </args>
+    </payloadFactory>
+    <property name="HTTP_METHOD" value="POST" scope="axis2" type="STRING"/>
+    <property name="messageType" value="multipart/form-data" scope="axis2"/>
+    <call blocking="false">
+        <endpoint key="zoho_token"/>
+    </call>
+    <property name="access_token" type="STRING" expression="json-eval($.access_token)" />
+    <property name="token_type" type="STRING" expression="json-eval($.token_type)" />
+    <property name="auth_token" type="STRING" expression="fn:concat($ctx:token_type,' ',$ctx:access_token)" />
+    <property name="TRANSPORT_HEADERS" action="remove" scope="axis2"/>
+    <header action="remove" scope="transport" name="Set-Cookie" />
+    <!-- 
+    <header action="remove" scope="transport" name="Connection" />
+    <header action="remove" scope="transport" name="X-Content-Type-Options" />
+    <header action="remove" scope="transport" name="X-XSS-Protection" />
+    <header action="remove" scope="transport" name="Content-Language" />
+    <header action="remove" scope="transport" name="Strict-Transport-Security" />
+     -->
+    
+</sequence>

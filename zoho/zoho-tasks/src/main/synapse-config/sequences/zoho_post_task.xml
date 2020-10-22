@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="zoho_post_task" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log>
+        <property name="SEQ" value="zoho_post_task"/>
+        <property name="MSG" value="Starting"/>
+    </log>
+    <!-- We must save the original message before acquiring the auth token -->
+    <enrich>
+        <source clone="false" type="body"/>
+        <target property="original_body" type="property"/>
+    </enrich>
+    <sequence key="zoho_create_token"/>
+    <header expression="$ctx:auth_token" name="Authorization" scope="transport"/>
+    <enrich>
+        <source clone="true" type="inline">
+            <form/>
+        </source>
+        <target property="post_body" type="property"/>
+    </enrich>
+    <payloadFactory media-type="xml">
+        <format>
+            <mediate>
+                <name>$1</name>
+                <uploaddoc content-type="application/octet-stream" filename="attachment.png" name="uploaddoc">$2</uploaddoc>
+            </mediate>
+        </format>
+        <args>
+            <arg evaluator="xml" expression="$ctx:original_body//name/text()"/>
+            <arg evaluator="xml" expression="$ctx:original_body//uploaddoc"/>
+        </args>
+    </payloadFactory>
+    <property name="HTTP_METHOD" scope="axis2" type="STRING" value="POST"/>
+    <property name="messageType" scope="axis2" type="STRING" value="multipart/form-data"/>
+    <property name="DECODE_MULTIPART_DATA" scope="axis2" type="BOOLEAN" value="true"/>
+    <call>
+        <endpoint key="zoho_project"/>
+    </call>
+    <header action="remove" name="Content-Disposition" scope="transport"/>
+    <respond/>
+</sequence>

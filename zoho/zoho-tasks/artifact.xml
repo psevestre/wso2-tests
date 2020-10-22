@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="zoho_create_token" groupId="com.lighthouse.zohotasks.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/zoho_create_token.xml</file>
+    </artifact>
+    <artifact name="zoho_token" groupId="com.lighthouse.zohotasks.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/zoho_token.xml</file>
+    </artifact>
+    <artifact name="zoho" groupId="com.lighthouse.zohotasks.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/zoho.xml</file>
+    </artifact>
+    <artifact name="zoho_project" groupId="com.lighthouse.zohotasks.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/zoho_project.xml</file>
+    </artifact>
+    <artifact name="zoho_get_tasks" groupId="com.lighthouse.zohotasks.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/zoho_get_tasks.xml</file>
+    </artifact>
+    <artifact name="zoho_post_task" groupId="com.lighthouse.zohotasks.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/zoho_post_task.xml</file>
+    </artifact>
+    <artifact name="respond_with_400" groupId="com.lighthouse.zohotasks.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/respond_with_400.xml</file>
+    </artifact>
+</artifacts>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="zoho_get_tasks" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <sequence key="zoho_create_token"/>
+    <header expression="$ctx:auth_token" name="Authorization" scope="transport"/>
+    <log>
+        <property name="SEQ" value="zoho_get_tasks"/>
+        <property expression="fn:concat('switch: method=', $ctx:original_http_method)" name="MSG"/>
+    </log>
+    <property name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+    <call>
+        <endpoint key="zoho_project"/>
+    </call>
+    <header action="remove" name="Content-Disposition" scope="transport"/>
+    <respond/>
+</sequence>

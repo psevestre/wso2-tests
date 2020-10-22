@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="respond_with_400" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <payloadFactory media-type="xml">
+        <format>
+            <problem>
+                <type>http://lighthouse.com.br/problem/invalid-request</type>
+                <title>Invalid request</title>
+                <status>400</status>
+                <method>$1</method>
+            </problem>
+        </format>
+        <args>
+            <arg evaluator="xml" expression="get-property('axis2','HTTP_METHOD')"/>
+        </args>
+    </payloadFactory>
+    <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+    <respond/>
+</sequence>
